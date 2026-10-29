@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ห้องเรียนวิทยาการคำนวณ</title>
+<style>
+:root {
+  --site-primary: #244d46;
+  --site-secondary: #dce9df;
+  --site-background: #f7f8f4;
+  --site-on-primary: #ffffff;
+  --site-on-secondary: #244d46;
+  --site-on-background: #202a26;
+  --site-font-body: "Tahoma", "Leelawadee UI", sans-serif;
+  --site-font-heading: "Tahoma", "Leelawadee UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: light-dark(#ffffff, #202622);
+  --muted: light-dark(#68756e, #b4c0b8);
+  --line: light-dark(#e3e9e3, #39433d);
+  --soft: light-dark(#eef4ef, #2b3730);
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); color: var(--site-on-background); background: var(--site-background); }
+.app { min-height: 100vh; background-color: var(--site-background); color: var(--site-on-background); overflow: hidden; }
+.container { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+.topbar { border-bottom: 1px solid var(--line); background: var(--surface); }
+.nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.brand { display: flex; align-items: center; gap: 12px; color: var(--site-on-background); text-decoration: none; font-weight: 800; }
+.logo { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; background: var(--site-primary); color: var(--site-on-primary); }
+.logo svg { width: 24px; height: 24px; }
+.brand small { display: block; margin-top: 3px; color: var(--muted); font-weight: 400; font-size: 11px; }
+.navlinks { display: flex; gap: 24px; align-items: center; }
+.navlinks a { text-decoration: none; color: var(--muted); font-size: 14px; }
+.navlinks a:hover { color: var(--site-primary); }
+.hero { padding: calc(68px * var(--site-spacing-scale)) 0 calc(56px * var(--site-spacing-scale)); position: relative; }
+.hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 48px; align-items: center; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--site-primary); background: var(--site-secondary); padding: 8px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .2px; }
+h1 { font-family: var(--site-font-heading); font-size: calc(clamp(34px, 4.7vw, 58px) * var(--site-heading-scale)); line-height: 1.22; letter-spacing: -1.5px; margin: 20px 0 18px; }
+h1 span { color: var(--site-primary); }
+.hero p { color: var(--muted); line-height: 1.9; font-size: 16px; max-width: 570px; margin: 0 0 26px; }
+.actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { border: 1px solid var(--line); padding: 12px 18px; border-radius: calc(12px * var(--site-radius-scale)); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; transition: transform .15s, background .15s; }
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--site-primary); color: var(--site-on-primary); border-color: var(--site-primary); }
+.btn-secondary { background: var(--surface); color: var(--site-on-background); }
+.hero-art { min-height: 320px; border-radius: calc(28px * var(--site-radius-scale)); background: var(--site-secondary); padding: 26px; display: flex; align-items: center; justify-content: center; position: relative; }
+.art-card { width: 100%; max-width: 330px; border: 1px solid rgba(36,77,70,.13); border-radius: 22px; padding: 22px; background: var(--surface); box-shadow: 0 18px 45px rgba(36,77,70,.08); transform: rotate(2deg); }
+.art-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; color: var(--muted); font-size: 12px; }
+.art-dots { display: flex; gap: 5px; }
+.art-dots i { width: 7px; height: 7px; border-radius: 50%; background: #cbd8cd; }
+.code-line { display: flex; align-items: center; gap: 10px; padding: 12px; margin: 9px 0; background: var(--soft); border-radius: 10px; font-family: monospace; font-size: 12px; }
+.code-line b { width: 23px; height: 23px; border-radius: 7px; display: grid; place-items: center; background: var(--site-primary); color: white; font-size: 10px; }
+.code-line:nth-child(3) b { background: #c58b4c; }
+.code-line:nth-child(4) b { background: #789b79; }
+.art-caption { margin-top: 20px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.pill { background: var(--site-secondary); color: var(--site-primary); padding: 6px 9px; border-radius: 8px; font-weight: 700; }
+.section { padding: 56px 0; }
+.section-head { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 26px; }
+.kicker { color: var(--site-primary); font-size: 12px; text-transform: uppercase; letter-spacing: 1.4px; font-weight: 800; }
+h2 { font-size: calc(28px * var(--site-heading-scale)); margin: 8px 0 0; letter-spacing: -.5px; }
+.section-desc { color: var(--muted); font-size: 14px; line-height: 1.8; max-width: 390px; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: calc(20px * var(--site-radius-scale)); padding: 23px; min-height: 224px; display: flex; flex-direction: column; transition: transform .18s, border-color .18s; }
+.card:hover { transform: translateY(-4px); border-color: #a8c2ad; }
+.card-icon { width: 48px; height: 48px; border-radius: 15px; background: var(--soft); display: grid; place-items: center; font-size: 23px; margin-bottom: 20px; }
+.card h3 { margin: 0 0 9px; font-size: 17px; }
+.card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+.card-bottom { margin-top: auto; padding-top: 20px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); }
+.text-link { color: var(--site-primary); font-weight: 800; border: 0; background: none; cursor: pointer; font: inherit; font-size: 12px; }
+.resource-section { background: var(--soft); padding: 54px 0; }
+.resource-tools { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+.search { flex: 1; min-width: 210px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 12px 14px; color: var(--site-on-background); font: inherit; font-size: 14px; outline: none; }
+.search:focus { border-color: var(--site-primary); }
+.filter { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 10px 14px; color: var(--site-on-background); font: inherit; font-size: 13px; cursor: pointer; }
+.resource-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.resource { display: flex; align-items: center; gap: 14px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 15px; }
+.resource-symbol { width: 42px; height: 42px; flex-shrink: 0; border-radius: 12px; display: grid; place-items: center; background: var(--site-secondary); color: var(--site-primary); font-size: 19px; }
+.resource-info { min-width: 0; flex: 1; }
+.resource-info h3 { font-size: 14px; margin: 0 0 5px; }
+.resource-info p { color: var(--muted); font-size: 12px; margin: 0; }
+.resource-tag { font-size: 11px; color: var(--site-primary); background: var(--site-secondary); border-radius: 7px; padding: 5px 7px; white-space: nowrap; }
+.empty { color: var(--muted); padding: 20px; grid-column: 1 / -1; text-align: center; }
+.cta { margin: 58px 0; padding: 32px; border-radius: calc(24px * var(--site-radius-scale)); background: var(--site-primary); color: var(--site-on-primary); display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.cta h2 { margin: 0 0 8px; font-size: 25px; }
+.cta p { margin: 0; opacity: .8; font-size: 13px; line-height: 1.8; }
+.cta .btn { background: #fff; color: #244d46; border-color: #fff; white-space: nowrap; }
+footer { border-top: 1px solid var(--line); padding: 22px 0; color: var(--muted); font-size: 12px; }
+.footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.quiz-panel, .dashboard-panel { background: var(--surface); border: 1px solid var(--line); border-radius: calc(20px * var(--site-radius-scale)); padding: 24px; }
+.field { width: 100%; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--site-on-background); padding: 11px 12px; font: inherit; margin: 6px 0 14px; }
+.quiz-question { border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin: 14px 0; }
+.quiz-question legend { font-weight: 700; padding: 0 5px; }
+.answer-option { display: flex; align-items: start; gap: 9px; padding: 8px 4px; cursor: pointer; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0; }
+.stat { background: var(--soft); padding: 16px; border-radius: 13px; }
+.stat strong { display: block; font-size: 25px; color: var(--site-primary); }
+.table-wrap { overflow-x: auto; }
+.score-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.score-table th, .score-table td { padding: 11px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.notice { color: var(--muted); font-size: 12px; line-height: 1.7; }
+.result-message { padding: 14px; border-radius: 12px; background: var(--soft); margin-top: 14px; }
+.modal-backdrop { position: fixed; inset: 0; z-index: 10; background: rgba(14,25,19,.45); display: none; align-items: center; justify-content: center; padding: 20px; }
+.modal-backdrop.open { display: flex; }
+.modal { width: min(480px, 100%); border-radius: 22px; padding: 26px; background: var(--surface); color: var(--site-on-background); box-shadow: 0 20px 70px rgba(0,0,0,.2); }
+.modal h2 { font-size: 23px; margin: 0 0 10px; }
+.modal p { color: var(--muted); line-height: 1.8; font-size: 14px; }
+.modal-actions { display: flex; justify-content: flex-end; margin-top: 22px; }
+@media (max-width: 760px) { .navlinks { display: none; } .hero-grid { grid-template-columns: 1fr; gap: 28px; } .hero { padding-top: 44px; } .hero-art { min-height: 280px; } .cards { grid-template-columns: 1fr; } .section-head { align-items: start; flex-direction: column; } .resource-list { grid-template-columns: 1fr; } .cta { align-items: start; flex-direction: column; } h1 { letter-spacing: -1px; } }
+</style>
+</head>
+<body>
+<div class="app" id="top">
+  <header class="topbar"><div class="container nav">
+    <a class="brand" href="#top"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m9 9-2 3 2 3M15 9l2 3-2 3M13 8l-2 8"/></svg></span><span>ห้องเรียนโค้ดดิ้ง<small>COMPUTING SCIENCE CLASSROOM</small></span></a>
+    <nav class="navlinks"><a href="#lessons">บทเรียน</a><a href="#resources">คลังความรู้</a><a href="#quiz">แบบทดสอบ</a><a href="#dashboard">Dashboard ครู</a></nav>
+  </div></header>
+  <main>
+    <section class="hero"><div class="container hero-grid">
+      <div><div class="eyebrow"><span>✦</span> เรียนรู้ • คิดเป็น • สร้างสรรค์</div><h1>สนุกกับการคิด<br>สร้างสรรค์โลกด้วย<br><span>วิทยาการคำนวณ</span></h1><p>พื้นที่เรียนรู้ที่ชวนทุกคนฝึกคิดอย่างเป็นระบบ แก้ปัญหาอย่างมีขั้นตอน และเปลี่ยนไอเดียให้เป็นผลงานดิจิทัลของตัวเอง</p><div class="actions"><button class="btn btn-primary" onclick="document.querySelector('#lessons').scrollIntoView({behavior:'smooth'})">เริ่มเรียนรู้ <span aria-hidden="true">→</span></button><button class="btn btn-secondary" onclick="document.querySelector('#resources').scrollIntoView({behavior:'smooth'})">ดูคลังความรู้</button></div></div>
+      <div class="hero-art" aria-label="ภาพประกอบโค้ดดิ้ง"><div class="art-card"><div class="art-top"><span>MY FIRST ALGORITHM</span><span class="art-dots"><i></i><i></i><i></i></span></div><div class="code-line"><b>01</b><span>เริ่มต้น → สังเกตปัญหา</span></div><div class="code-line"><b>02</b><span>วางแผน → แยกเป็นขั้นตอน</span></div><div class="code-line"><b>03</b><span>ลงมือทำ → ทดลองและแก้ไข</span></div><div class="art-caption"><span>คิดเป็นขั้นตอน ทุกอย่างเป็นไปได้</span><span class="pill">LET'S CODE</span></div></div></div>
+    </div></section>
+    <section class="section" id="lessons"><div class="container"><div class="section-head"><div><div class="kicker">LEARNING PATH</div><h2>สำรวจบทเรียน</h2></div><div class="section-desc">ค่อย ๆ เรียนรู้จากแนวคิดพื้นฐาน ไปสู่การสร้างสรรค์ชิ้นงานและการใช้เทคโนโลยีอย่างรู้เท่าทัน</div></div>
+      <div class="cards">
+        <article class="card"><div class="card-icon">🧩</div><h3>การแก้ปัญหาอย่างเป็นขั้นตอน</h3><p>ฝึกสังเกตปัญหา เรียงลำดับความคิด และออกแบบวิธีแก้ปัญหาในชีวิตประจำวัน</p><div class="card-bottom"><span>พื้นฐานการคิด</span><button class="text-link" onclick="openLesson('การแก้ปัญหาอย่างเป็นขั้นตอน','เริ่มจากระบุปัญหา คิดหาวิธีแก้ เรียงลำดับขั้นตอน ทดลองทำ และตรวจสอบผลลัพธ์ ลองฝึกเขียนขั้นตอนการแปรงฟันหรือการจัดกระเป๋านักเรียนดูนะ')">เปิดบทเรียน ↗</button></div></article>
+        <article class="card"><div class="card-icon">🖥️</div><h3>การเขียนโปรแกรม</h3><p>รู้จักคำสั่ง ลำดับ เหตุการณ์ เงื่อนไข และการทำซ้ำ ผ่านกิจกรรมที่ลงมือทำได้จริง</p><div class="card-bottom"><span>คิดแบบนักพัฒนา</span><button class="text-link" onclick="openLesson('การเขียนโปรแกรม','โปรแกรมคือชุดคำสั่งที่บอกคอมพิวเตอร์ให้ทำงาน ลองเริ่มจากการเรียงบล็อกคำสั่งให้ตัวละครเดิน เลี้ยว และพูดข้อความตามลำดับ')">เปิดบทเรียน ↗</button></div></article>
+        <article class="card"><div class="card-icon">🔐</div><h3>เทคโนโลยีดิจิทัลอย่างปลอดภัย</h3><p>เรียนรู้การปกป้องข้อมูลส่วนตัว มารยาทออนไลน์ และการประเมินข้อมูลก่อนเชื่อหรือแชร์</p><div class="card-bottom"><span>พลเมืองดิจิทัล</span><button class="text-link" onclick="openLesson('เทคโนโลยีดิจิทัลอย่างปลอดภัย','คิดก่อนคลิก ไม่เปิดเผยรหัสผ่านหรือข้อมูลส่วนตัว ตรวจสอบแหล่งที่มาก่อนแชร์ และบอกผู้ใหญ่ที่ไว้ใจได้หากพบสิ่งผิดปกติบนโลกออนไลน์')">เปิดบทเรียน ↗</button></div></article>
+      </div>
+    </div></section>
+    <section class="resource-section" id="resources"><div class="container"><div class="section-head"><div><div class="kicker">CLASSROOM LIBRARY</div><h2>คลังความรู้</h2></div><div class="section-desc">ค้นหาหัวข้อที่สนใจ แล้วเลือกอ่านแนวคิดสั้น ๆ เพื่อทบทวนก่อนทำกิจกรรม</div></div>
+      <div class="resource-tools"><input class="search" id="search" type="search" placeholder="ค้นหาบทเรียน เช่น Scratch, อัลกอริทึม..." aria-label="ค้นหาบทเรียน"><button class="filter" data-filter="ทั้งหมด">ทั้งหมด</button><button class="filter" data-filter="แนวคิด">แนวคิด</button><button class="filter" data-filter="กิจกรรม">กิจกรรม</button></div>
+      <div class="resource-list" id="resourceList"></div>
+    </div></section>
+    <section class="section" id="quiz"><div class="container"><div class="section-head"><div><div class="kicker">QUICK CHECK</div><h2>แบบทดสอบท้ายบท</h2></div><div class="section-desc">กรอกข้อมูลนักเรียน ตอบคำถาม แล้วส่งเพื่อดูคะแนนของตนเอง</div></div><div class="quiz-panel"><form id="quizForm"><label for="studentName">ชื่อ - นามสกุล</label><input class="field" id="studentName" required maxlength="100" placeholder="กรอกชื่อผู้เรียน"><label for="studentClass">ชั้น / ห้อง</label><input class="field" id="studentClass" required maxlength="30" placeholder="เช่น ป.4/1"><label for="studentNumber">เลขที่</label><input class="field" id="studentNumber" required maxlength="10" placeholder="เลขที่"><div id="quizQuestions"></div><button class="btn btn-primary" type="submit">ส่งคำตอบและตรวจคะแนน</button><div id="quizResult" aria-live="polite"></div></form></div></div></section>
+    <section class="resource-section" id="dashboard"><div class="container"><div class="section-head"><div><div class="kicker">TEACHER AREA</div><h2>Dashboard ครู</h2></div><div class="section-desc">ดูคะแนนที่บันทึกไว้ในเบราว์เซอร์นี้ และส่งออกเป็นไฟล์ CSV</div></div><div class="dashboard-panel"><div class="stats"><div class="stat"><span>จำนวนครั้งที่ส่ง</span><strong id="totalSubmissions">0</strong></div><div class="stat"><span>คะแนนเฉลี่ย</span><strong id="averageScore">0%</strong></div><div class="stat"><span>คะแนนสูงสุด</span><strong id="bestScore">0%</strong></div></div><div class="actions" style="margin-bottom:16px"><button class="btn btn-primary" type="button" id="exportScores">ดาวน์โหลดคะแนน CSV</button><button class="btn btn-secondary" type="button" id="clearScores">ล้างคะแนนในเครื่องนี้</button></div><div class="table-wrap"><table class="score-table"><thead><tr><th>วันเวลา</th><th>ชื่อ</th><th>ชั้น</th><th>เลขที่</th><th>คะแนน</th></tr></thead><tbody id="scoreRows"><tr><td colspan="5">ยังไม่มีคะแนนในเบราว์เซอร์นี้</td></tr></tbody></table></div><p class="notice">ข้อจำกัดสำคัญ: รุ่นทดลองนี้เก็บคะแนนในเบราว์เซอร์/อุปกรณ์ที่ส่งคำตอบเท่านั้น ครูจะไม่เห็นคะแนนจากอุปกรณ์อื่น และข้อมูลอาจหายเมื่อล้างข้อมูลเบราว์เซอร์ ต้องใช้ฐานข้อมูลหรือบริการจัดเก็บข้อมูลภายนอก หากต้องการรวมคะแนนจากนักเรียนทั้งห้อง</p></div></div></section>
+    <section class="container" id="activities"><div class="cta"><div><h2>พร้อมเป็นนักแก้ปัญหาหรือยัง?</h2><p>เริ่มจากคำถามเล็ก ๆ ทดลองทำ เรียนรู้จากข้อผิดพลาด แล้วพัฒนาให้ดีขึ้นในทุกวัน</p></div><button class="btn" onclick="openLesson('ภารกิจประจำห้องเรียน','ภารกิจ: เลือกปัญหาหนึ่งอย่างในห้องเรียน เช่น อุปกรณ์ไม่เป็นระเบียบ แล้วเขียนวิธีแก้เป็น 4–6 ขั้นตอน ทดลองใช้จริง และปรับปรุงวิธีของตนเอง')">ดูภารกิจของฉัน →</button></div></section>
+  </main>
+  <footer><div class="container footer-inner"><span>© ห้องเรียนวิทยาการคำนวณ · เรียนรู้ไปด้วยกัน</span><span>คิดเป็นระบบ • สร้างสรรค์ • ใช้เทคโนโลยีอย่างรับผิดชอบ</span></div></footer>
+</div>
+<div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="if(event.target===this)closeLesson()"><div class="modal"><h2 id="modalTitle"></h2><p id="modalText"></p><div class="modal-actions"><button class="btn btn-primary" onclick="closeLesson()">เข้าใจแล้ว</button></div></div></div>
+<script>
+const resources = [
+ {icon:'🧠',title:'อัลกอริทึมคืออะไร?',desc:'แนวคิดการเรียงลำดับขั้นตอนเพื่อแก้ปัญหา',tag:'แนวคิด',body:'อัลกอริทึม คือขั้นตอนที่ชัดเจนและเรียงตามลำดับเพื่อทำงานหรือแก้ปัญหา ตัวอย่างเช่น ขั้นตอนการล้างมือ ตั้งแต่เปิดน้ำจนถึงเช็ดมือให้แห้ง'},
+ {icon:'🧱',title:'รู้จัก Scratch',desc:'สร้างเรื่องราวและเกมด้วยบล็อกคำสั่ง',tag:'กิจกรรม',body:'Scratch เป็นเครื่องมือเขียนโปรแกรมด้วยการลากบล็อกคำสั่งมาต่อกัน เหมาะสำหรับฝึกแนวคิดเรื่องลำดับ เหตุการณ์ เงื่อนไข และการทำซ้ำ'},
+ {icon:'🔁',title:'การทำซ้ำ (Loop)',desc:'สั่งให้คอมพิวเตอร์ทำงานเดิมหลายครั้ง',tag:'แนวคิด',body:'การทำซ้ำช่วยลดการเขียนคำสั่งเดิมหลายบรรทัด เช่น สั่งให้ตัวละครกระโดด 5 ครั้ง โดยใช้คำสั่งทำซ้ำแทนการเขียนคำสั่งกระโดดซ้ำ ๆ'},
+ {icon:'🕵️',title:'นักสืบข้อมูลออนไลน์',desc:'ฝึกตรวจสอบที่มาและความน่าเชื่อถือของข้อมูล',tag:'กิจกรรม',body:'ก่อนเชื่อหรือแชร์ข้อมูล ให้ตรวจสอบผู้เขียน วันที่เผยแพร่ แหล่งอ้างอิง และเปรียบเทียบกับแหล่งข้อมูลที่น่าเชื่อถืออื่น ๆ'},
+ {icon:'🔒',title:'ข้อมูลส่วนตัวและรหัสผ่าน',desc:'วิธีปกป้องบัญชีและข้อมูลของตนเอง',tag:'แนวคิด',body:'ใช้รหัสผ่านที่เดายาก ไม่ใช้รหัสเดียวกันทุกบริการ ไม่บอกรหัสผ่านกับผู้อื่น และขอความช่วยเหลือจากผู้ใหญ่เมื่อสงสัยว่าบัญชีไม่ปลอดภัย'},
+ {icon:'🛠️',title:'ภารกิจออกแบบวิธีแก้ปัญหา',desc:'เลือกปัญหาใกล้ตัว แล้วออกแบบวิธีแก้ทีละขั้น',tag:'กิจกรรม',body:'เลือกปัญหาในห้องเรียน 1 เรื่อง เขียนขั้นตอนแก้ปัญหาให้ชัด ทดลองทำ แล้วจดบันทึกว่าส่วนใดทำได้ดีและส่วนใดควรปรับปรุง'}
+];
+const quizItems = [
+ {q:'อัลกอริทึมหมายถึงอะไร?', options:['ชุดขั้นตอนเพื่อแก้ปัญหา','อุปกรณ์เก็บข้อมูล','โปรแกรมวาดภาพเท่านั้น','ชื่อเครือข่ายอินเทอร์เน็ต'], answer:0},
+ {q:'ถ้าต้องการให้ตัวละครทำสิ่งเดิม 5 ครั้ง ควรใช้แนวคิดใด?', options:['การลบข้อมูล','การทำซ้ำ (Loop)','การปิดเครื่อง','การเปลี่ยนรหัสผ่าน'], answer:1},
+ {q:'ข้อใดเป็นวิธีปกป้องข้อมูลส่วนตัวที่เหมาะสม?', options:['บอกรหัสผ่านให้เพื่อนทุกคน','ใช้รหัสผ่านเดียวกันทุกเว็บไซต์','ไม่เปิดเผยรหัสผ่านและขอความช่วยเหลือเมื่อสงสัย','โพสต์ที่อยู่บ้านในสาธารณะ'], answer:2},
+ {q:'ก่อนแชร์ข่าวบนอินเทอร์เน็ตควรทำอย่างไร?', options:['แชร์ทันที','ดูเฉพาะจำนวนคนกดถูกใจ','เชื่อเมื่อมีรูปภาพ','ตรวจสอบแหล่งที่มาและเทียบข้อมูล'], answer:3},
+ {q:'การทดสอบโปรแกรมมีประโยชน์อย่างไร?', options:['ช่วยค้นหาข้อผิดพลาดและปรับปรุงงาน','ทำให้ไม่ต้องวางแผน','ลบคำสั่งทั้งหมด','ทำให้ข้อมูลเป็นความลับโดยอัตโนมัติ'], answer:0}
+];
+const scoreStorageKey = 'computingClassroomScoresV1';
+function getScores(){try{return JSON.parse(localStorage.getItem(scoreStorageKey)||'[]')}catch(e){return []}}
+function renderQuiz(){const host=document.getElementById('quizQuestions');quizItems.forEach((item,i)=>{const fieldset=document.createElement('fieldset');fieldset.className='quiz-question';const legend=document.createElement('legend');legend.textContent=(i+1)+'. '+item.q;fieldset.append(legend);item.options.forEach((option,j)=>{const label=document.createElement('label');label.className='answer-option';const input=document.createElement('input');input.type='radio';input.name='question'+i;input.value=String(j);input.required=true;const text=document.createElement('span');text.textContent=option;label.append(input,text);fieldset.append(label)});host.append(fieldset)})}
+function renderDashboard(){const scores=getScores();document.getElementById('totalSubmissions').textContent=scores.length;document.getElementById('averageScore').textContent=(scores.length?Math.round(scores.reduce((sum,s)=>sum+s.percent,0)/scores.length):0)+'%';document.getElementById('bestScore').textContent=(scores.length?Math.max(...scores.map(s=>s.percent)):0)+'%';const rows=document.getElementById('scoreRows');rows.textContent='';if(!scores.length){const tr=document.createElement('tr');const td=document.createElement('td');td.colSpan=5;td.textContent='ยังไม่มีคะแนนในเบราว์เซอร์นี้';tr.append(td);rows.append(tr);return}scores.slice().reverse().forEach(s=>{const tr=document.createElement('tr');[new Date(s.date).toLocaleString('th-TH'),s.name,s.className,s.number,s.score+'/'+s.total+' ('+s.percent+'%)'].forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.append(td)});rows.append(tr)})}
+document.getElementById('quizForm').addEventListener('submit',e=>{e.preventDefault();let score=0;quizItems.forEach((item,i)=>{const selected=document.querySelector('input[name="question'+i+'"]:checked');if(selected&&Number(selected.value)===item.answer)score++});const record={date:new Date().toISOString(),name:document.getElementById('studentName').value.trim(),className:document.getElementById('studentClass').value.trim(),number:document.getElementById('studentNumber').value.trim(),score,total:quizItems.length,percent:Math.round(score/quizItems.length*100)};const scores=getScores();scores.push(record);try{localStorage.setItem(scoreStorageKey,JSON.stringify(scores));document.getElementById('quizResult').textContent='';const result=document.createElement('div');result.className='result-message';result.textContent='ทำแบบทดสอบเสร็จแล้ว ได้ '+score+' จาก '+quizItems.length+' คะแนน ('+record.percent+'%)';document.getElementById('quizResult').append(result);renderDashboard()}catch(err){alert('เบราว์เซอร์ไม่สามารถบันทึกคะแนนได้ กรุณาตรวจสอบการตั้งค่าพื้นที่จัดเก็บข้อมูล')}});
+document.getElementById('exportScores').addEventListener('click',()=>{const scores=getScores();if(!scores.length){alert('ยังไม่มีคะแนนให้ส่งออก');return}const rows=[['วันเวลา','ชื่อ','ชั้น','เลขที่','คะแนน','คะแนนเต็ม','ร้อยละ'],...scores.map(s=>[new Date(s.date).toLocaleString('th-TH'),s.name,s.className,s.number,s.score,s.total,s.percent])];const csv='\uFEFF'+rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download='คะแนนวิทยาการคำนวณ.csv';a.click();URL.revokeObjectURL(url)});
+document.getElementById('clearScores').addEventListener('click',()=>{if(confirm('ยืนยันล้างคะแนนทั้งหมดที่บันทึกในเบราว์เซอร์นี้?')){localStorage.removeItem(scoreStorageKey);renderDashboard()}});
+let activeFilter = 'ทั้งหมด';
+function renderResources(){
+ const q=document.getElementById('search').value.trim().toLowerCase();
+ const shown=resources.filter(r=>(activeFilter==='ทั้งหมด'||r.tag===activeFilter)&&(`${r.title} ${r.desc} ${r.tag}`.toLowerCase().includes(q)));
+ const list=document.getElementById('resourceList');
+ list.innerHTML='';
+ if(!shown.length){list.innerHTML='<div class="empty">ไม่พบหัวข้อที่ค้นหา ลองใช้คำอื่นดูนะ</div>';return;}
+ shown.forEach(r=>{const item=document.createElement('article');item.className='resource';
+ const icon=document.createElement('div');icon.className='resource-symbol';icon.textContent=r.icon;
+ const info=document.createElement('div');info.className='resource-info';const title=document.createElement('h3');title.textContent=r.title;const desc=document.createElement('p');desc.textContent=r.desc;info.append(title,desc);
+ const tag=document.createElement('span');tag.className='resource-tag';tag.textContent=r.tag;
+ const btn=document.createElement('button');btn.className='text-link';btn.textContent='อ่าน ↗';btn.setAttribute('aria-label','อ่าน '+r.title);btn.onclick=()=>openLesson(r.title,r.body);
+ item.append(icon,info,tag,btn);list.append(item);});
+}
+document.getElementById('search').addEventListener('input',renderResources);
+document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>{activeFilter=btn.dataset.filter;document.querySelectorAll('.filter').forEach(b=>{b.style.background=b===btn?'var(--site-secondary)':'var(--surface)';b.style.borderColor=b===btn?'var(--site-primary)':'var(--line)';});renderResources();}));
+function openLesson(title,body){document.getElementById('modalTitle').textContent=title;document.getElementById('modalText').textContent=body;document.getElementById('modal').classList.add('open');}
+function closeLesson(){document.getElementById('modal').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLesson();});
+renderResources();
+renderQuiz();
+renderDashboard();
+</script>
+</body>
+</html>
